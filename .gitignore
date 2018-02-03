@@ -1,0 +1,9 @@
+/Server/WebApplicationServer/bin/
+/Server/WebApplicationServer/obj/
+/Client/WindowsClientApplication/bin/
+/Client/WindowsClientApplication/obj/
+/Common/CommonTypes/bin/
+/Common/CommonTypes/obj/
+/packages/
+db.lock
+storage.ide
