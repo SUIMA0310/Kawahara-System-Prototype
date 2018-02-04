@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -8,6 +9,7 @@ namespace WindowsClientApplication.Views {
     /// <summary>
     /// Interaction logic for Shell.xaml
     /// </summary>
+    [Export]
     public partial class Shell : Window {
         public const int GWL_STYLE = ( -16 ); // ウィンドウスタイル
         public const int GWL_EXSTYLE = ( -20 ); // 拡張ウィンドウスタイル
