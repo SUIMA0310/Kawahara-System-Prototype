@@ -4,5 +4,5 @@
         xmlns:c="clr-namespace:WindowsClientApplication.Controls"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        ItemSource="{Binding Reactions}">
+        ReactionNotification="{Binding}">
 </c:Reaction>

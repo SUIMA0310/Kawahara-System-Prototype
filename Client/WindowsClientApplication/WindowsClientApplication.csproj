@@ -58,6 +58,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\IReactionNotification.cs" />
+    <Compile Include="Models\ReactionEventArgs.cs" />
     <Compile Include="ViewModels\MainControlViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\Shell.xaml.cs">

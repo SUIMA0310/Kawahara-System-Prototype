@@ -22,18 +22,36 @@ namespace WindowsClientApplication.Controls {
 
     public class Reaction : D2dControl.D2dControl {
 
-        public IEnumerable<ReactionInfo> ItemSource {
-            get { return (IEnumerable<ReactionInfo>)GetValue( ItemSourceProperty ); }
-            set { SetValue( ItemSourceProperty, value ); }
+        public IReactionNotification ReactionNotification {
+            get { return (IReactionNotification)GetValue( ReactionNotificationProperty ); }
+            set { SetValue( ReactionNotificationProperty, value ); }
         }
 
-        // Using a DependencyProperty as the backing store for ItemSource.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
-            "ItemSource",
-            typeof( IEnumerable<ReactionInfo> ),
-            typeof( Reaction ),
-            new PropertyMetadata()
-        );
+        // Using a DependencyProperty as the backing store for ReactionNotification.  
+        // This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ReactionNotificationProperty = DependencyProperty.Register( 
+                "ReactionNotification", 
+                typeof( IReactionNotification ), 
+                typeof( Reaction ), 
+                new PropertyMetadata( (s, e) => {
+
+                    if ( s is Reaction sender ) {
+
+                        if ( e.OldValue is IReactionNotification oldValue ) {
+                            oldValue.ReactionReceived -= sender.OnReactionReceived;
+                        }
+
+                        if ( e.NewValue is IReactionNotification newValue ) {
+                            newValue.ReactionReceived += sender.OnReactionReceived;
+                        }
+
+                    }
+
+                } ) );
+
+        private Queue<ReactionInfo> Queue { get; } = new Queue<ReactionInfo>();
+
+
 
         public Reaction(  ) {
 
@@ -45,29 +63,44 @@ namespace WindowsClientApplication.Controls {
 
             target.Clear( new RawColor4( 1.0f, 1.0f, 1.0f, 0.0f ) );
 
-            var itemSource = this.ItemSource;
+            lock ( this.Queue ) {
 
-            if ( ItemSource == null ) {
-                return;
-            }
+                foreach ( var item in Queue ) {
 
-            foreach ( var item in itemSource ) {
+                    var raw = new RawRectangleF();
+                    var ret = GetPosition( item );
+                    raw.Left = (float)ActualWidth / 2.0f + ret.x;
+                    raw.Top = (float)ActualHeight * 0.9f - ret.y;
 
-                var raw = new RawRectangleF();
-                var ret = GetPosition( item );
-                raw.Left = (float)ActualWidth / 2.0f + ret.x;
-                raw.Top = (float)ActualHeight * 0.9f - ret.y;
+                    raw.Right = raw.Left + 50.0f;
+                    raw.Bottom = raw.Top - 50.0f;
+                    raw.Left -= 50.0f;
+                    raw.Top += 50.0f;
 
-                raw.Right = raw.Left + 50.0f;
-                raw.Bottom = raw.Top - 50.0f;
-                raw.Left -= 50.0f;
-                raw.Top += 50.0f;
+                    target.DrawBitmap( (Bitmap)resCache["Bitmap"], raw, 1.0f - GetPsersent( item.TimeSpan.TotalMilliseconds ), BitmapInterpolationMode.Linear );
 
-                target.DrawBitmap( (Bitmap)resCache["Bitmap"], raw, 1.0f - GetPsersent( item.TimeSpan.TotalMilliseconds ), BitmapInterpolationMode.Linear );
+                }
+
+                while ( this.Queue.Any() && this.Queue.Peek().TimeSpan > TimeSpan.FromMilliseconds( 1000 ) ) {
+
+                    this.Queue.Dequeue();
+
+                }
 
             }
 
         }
+
+        public void OnReactionReceived( object sender, ReactionEventArgs eventArgs ) {
+
+            lock ( this.Queue ) {
+
+                this.Queue.Enqueue( new ReactionInfo( eventArgs.ReactionTypes ) );
+
+            }
+
+        }
+
 
         private float GetPsersent(double ms) {
 

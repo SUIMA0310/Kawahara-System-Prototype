@@ -1,4 +1,5 @@
 ﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using WindowsClientApplication.Models;
@@ -6,27 +7,31 @@ using WindowsClientApplication.Models;
 namespace WindowsClientApplication.ViewModels {
 
     [Export]
-    public class MainControlViewModel : BindableBase {
+    public class MainControlViewModel : BindableBase, IReactionNotification {
 
         
-        private Container<ReactionInfo> Container;
         private IRealtimeReactionHub RealtimeReactionHub { get; }
+        
 
-
-        public IEnumerable<ReactionInfo> Reactions => Container; 
+        public event EventHandler<ReactionEventArgs> ReactionReceived;
 
         [ImportingConstructor]
         public MainControlViewModel(IRealtimeReactionHub realtimeReactionHub) {
 
-            this.Container = new Container<ReactionInfo>();
             this.RealtimeReactionHub = realtimeReactionHub;
 
             this.RealtimeReactionHub.OnReaction( x => {
 
-                this.Container.Insert( new ReactionInfo( x ) );
+                this.OnReactionReceived( new ReactionEventArgs( x ) );
 
             } );
             this.RealtimeReactionHub.AddListener();
+
+        }
+
+        protected void OnReactionReceived(ReactionEventArgs args) {
+
+            ReactionReceived?.Invoke( this, args );
 
         }
     }
