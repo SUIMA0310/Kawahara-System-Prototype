@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WindowsClientApplication.Models {
+
     public class Container<T> : IEnumerable<T> {
 
         private Subject<T> Subject { get; }
@@ -85,4 +86,5 @@ namespace WindowsClientApplication.Models {
         }
 
     }
+
 }
