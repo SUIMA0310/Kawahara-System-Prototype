@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WindowsClientApplication.Util;
 using CommonTypes;
+using System.ComponentModel.Composition;
 
 namespace WindowsClientApplication.Models {
 

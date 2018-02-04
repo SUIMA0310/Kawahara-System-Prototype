@@ -1,8 +1,11 @@
 ﻿using Prism.Mvvm;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using WindowsClientApplication.Models;
 
 namespace WindowsClientApplication.ViewModels {
+
+    [Export]
     public class MainControlViewModel : BindableBase {
 
         
@@ -12,7 +15,7 @@ namespace WindowsClientApplication.ViewModels {
 
         public IEnumerable<ReactionInfo> Reactions => Container; 
 
-
+        [ImportingConstructor]
         public MainControlViewModel(IRealtimeReactionHub realtimeReactionHub) {
 
             this.Container = new Container<ReactionInfo>();
@@ -27,4 +30,5 @@ namespace WindowsClientApplication.ViewModels {
 
         }
     }
+
 }

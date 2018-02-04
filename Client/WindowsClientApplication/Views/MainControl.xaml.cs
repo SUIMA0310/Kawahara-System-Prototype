@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -20,6 +21,7 @@ namespace WindowsClientApplication.Views {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
+    [Export]
     public partial class MainControl : Controls.Reaction {
 
         public MainControl() {

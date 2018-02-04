@@ -35,7 +35,7 @@ namespace WindowsClientApplication.Controls {
             new PropertyMetadata()
         );
 
-        public Reaction() {
+        public Reaction(  ) {
 
             resCache.Add( "Bitmap", t => GetBitmap( t ) );
 
