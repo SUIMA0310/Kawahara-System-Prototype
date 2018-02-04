@@ -20,7 +20,7 @@ namespace WindowsClientApplication.Views {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainControl : UserControl {
+    public partial class MainControl : Controls.Reaction {
 
         public MainControl() {
 
