@@ -5,5 +5,6 @@
 /Common/CommonTypes/bin/
 /Common/CommonTypes/obj/
 /packages/
+/.vs/
 db.lock
 storage.ide
