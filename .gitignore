@@ -8,4 +8,4 @@
 /.vs/
 db.lock
 storage.ide
-.user
+*.user
