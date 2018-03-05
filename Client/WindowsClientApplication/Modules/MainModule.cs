@@ -26,7 +26,7 @@ namespace WindowsClientApplication.Modules {
 
         [Export(typeof(IRealtimeReactionHub))]
         public IRealtimeReactionHub CreateRealtimeReactionHub => 
-            RealtimeReactionHub.CreateRealtimeReactionHub( "http://localhost:52645/" );
+            RealtimeReactionHub.CreateRealtimeReactionHub("http://kawahara-system-prototype.azurewebsites.net/");
 
     }
 
